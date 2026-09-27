@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyTube - Video Sharing</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <header class="navbar">
+    <div class="menu-btn" id="menuBtn">☰</div>
+
+    <div class="logo">
+      <span class="logo-icon">▶</span>
+      <span>MyTube</span>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search">
+      <button id="searchBtn">🔍</button>
+    </div>
+
+    <button class="upload-btn" id="uploadBtn">＋ Upload</button>
+  </header>
+
+  <aside class="sidebar" id="sidebar">
+    <a href="#" class="active">🏠 Home</a>
+    <a href="#">🔥 Trending</a>
+    <a href="#">📺 Subscriptions</a>
+    <hr>
+    <a href="#">📚 Library</a>
+    <a href="#">🕘 History</a>
+    <a href="#">👍 Liked Videos</a>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="category-bar">
+      <button class="category active-category">All</button>
+      <button class="category">Music</button>
+      <button class="category">Gaming</button>
+      <button class="category">News</button>
+      <button class="category">Village Life</button>
+      <button class="category">Technology</button>
+    </div>
+
+    <section class="video-grid" id="videoGrid">
+
+      <article class="video-card"
+        data-title="Beautiful Village Life in India"
+        data-category="Village Life">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/village/600/340">
+          <span class="duration">10:25</span>
+        </div>
+
+        <div class="video-info">
+          <div class="channel-avatar">V</div>
+
+          <div>
+            <h3>Beautiful Village Life in India</h3>
+            <p>Village World</p>
+            <p>1.2M views • 2 days ago</p>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="video-card"
+        data-title="Amazing Nature and Mountains"
+        data-category="Nature">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/mountain/600/340">
+          <span class="duration">08:42</span>
+        </div>
+
+        <div class="video-info">
+          <div class="channel-avatar">N</div>
+
+          <div>
+            <h3>Amazing Nature and Mountains</h3>
+            <p>Nature World</p>
+            <p>850K views • 1 week ago</p>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="video-card"
+        data-title="Latest Technology Explained"
+        data-category="Technology">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/technology/600/340">
+          <span class="duration">12:18</span>
+        </div>
+
+        <div class="video-info">
+          <div class="channel-avatar">T</div>
+
+          <div>
+            <h3>Latest Technology Explained</h3>
+            <p>Tech World</p>
+            <p>560K views • 3 days ago</p>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="video-card"
+        data-title="Relaxing Music for Everyone"
+        data-category="Music">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/music/600/340">
+          <span class="duration">25:30</span>
+        </div>
+
+        <div class="video-info">
+          <div class="channel-avatar">M</div>
+
+          <div>
+            <h3>Relaxing Music for Everyone</h3>
+            <p>Music Channel</p>
+            <p>2.4M views • 5 days ago</p>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="video-card"
+        data-title="Amazing Gaming Adventure"
+        data-category="Gaming">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/gaming/600/340">
+          <span class="duration">15:44</span>
+        </div>
+
+        <div class="video-info">
+          <div class="channel-avatar">G</div>
+
+          <div>
+            <h3>Amazing Gaming Adventure</h3>
+            <p>Gaming Zone</p>
+            <p>930K views • 1 day ago</p>
+          </div>
+        </div>
+      </article>
+
+
+      <article class="video-card"
+        data-title="Daily News Update"
+        data-category="News">
+
+        <div class="thumbnail">
+          <img src="https://picsum.photos/seed/news/600/340">
+          <span class="duration">06:15</span>
+        </div>
+
+        <div class="video-info">
+          <div class="channel-avatar">N</div>
+
+          <div>
+            <h3>Daily News Update</h3>
+            <p>News Channel</p>
+            <p>420K views • 4 hours ago</p>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <div class="no-results" id="noResults">
+      No videos found.
+    </div>
+
+  </main>
+
+  <div class="upload-modal" id="uploadModal">
+
+    <div class="modal-box">
+
+      <button class="close-btn" id="closeModal">×</button>
+
+      <h2>Upload Video</h2>
+
+      <input type="text" id="videoTitle" placeholder="Video title">
+
+      <input type="file" id="videoFile" accept="video/*">
+
+      <button class="publish-btn" id="publishBtn">
+        Publish Video
+      </button>
+
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

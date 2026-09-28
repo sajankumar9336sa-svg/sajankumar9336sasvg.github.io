@@ -1,0 +1,124 @@
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    // -----------------------------
+    // Helper functions
+    // -----------------------------
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn()
+             && request.auth.uid == uid;
+    }
+
+
+    // -----------------------------
+    // CHANNELS
+    // -----------------------------
+
+    match /channels/{uid} {
+
+      // Anyone can view public channel information
+      allow read: if true;
+
+      // Only the logged-in owner can create/update/delete their channel
+      allow create, update: if isOwner(uid);
+
+      allow delete: if isOwner(uid);
+
+
+      // -----------------------------
+      // CHANNEL SUBSCRIBERS
+      // -----------------------------
+
+      match /subscribers/{subscriberUid} {
+
+        // Subscriber information can be read
+        allow read: if true;
+
+        // A user can subscribe/unsubscribe using their own account
+        allow create, delete: if isOwner(subscriberUid);
+      }
+    }
+
+
+    // -----------------------------
+    // VIDEOS
+    // -----------------------------
+
+    match /videos/{videoId} {
+
+      // Public videos can be watched by anyone.
+      // Private videos can only be accessed by their owner.
+      allow read: if
+        resource.data.visibility == "public"
+        ||
+        (
+          signedIn()
+          &&
+          resource.data.ownerUid == request.auth.uid
+        );
+
+
+      // A logged-in user can upload/create only a video
+      // belonging to their own account.
+      allow create: if
+        signedIn()
+        &&
+        request.resource.data.ownerUid == request.auth.uid;
+
+
+      // Video owner can update/delete their own video.
+      //
+      // Logged-in users are also allowed to update video
+      // reaction data such as likes/dislikes.
+      allow update: if
+        (
+          signedIn()
+          &&
+          resource.data.ownerUid == request.auth.uid
+        )
+        ||
+        signedIn();
+
+
+      allow delete: if
+        signedIn()
+        &&
+        resource.data.ownerUid == request.auth.uid;
+
+
+      // -----------------------------
+      // VIDEO COMMENTS
+      // -----------------------------
+
+      match /comments/{commentId} {
+
+        // Anyone can read comments.
+        allow read: if true;
+
+
+        // A logged-in user can create a comment
+        // only using their own UID.
+        allow create: if
+          signedIn()
+          &&
+          request.resource.data.uid == request.auth.uid;
+
+
+        // Only the person who created the comment
+        // can edit/delete it.
+        allow update, delete: if
+          signedIn()
+          &&
+          resource.data.uid == request.auth.uid;
+      }
+    }
+  }
+}

@@ -1,207 +1,157 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MyTube - Video Sharing</title>
-  <link rel="stylesheet" href="style.css">
-</head> 
-
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <title>VidioSphere — Create • Watch • Share</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-
-  <header class="navbar">
-    <div class="menu-btn" id="menuBtn">☰</div>
-
-    <div class="logo">
-      <span class="logo-icon">▶</span>
-      <span>MyTube</span>
+  <header class="topbar">
+    <button id="menuBtn" class="icon-btn" aria-label="Menu">☰</button>
+    <a class="brand" href="#home"><span class="brand-mark">▶</span><b>VidioSphere</b></a>
+    <div class="search">
+      <input id="searchInput" placeholder="Search videos, channels, or topics">
+      <button id="searchBtn" aria-label="Search">⌕</button>
     </div>
-
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search">
-      <button id="searchBtn">🔍</button>
+    <button id="uploadTopBtn" class="outline-btn">＋ Upload</button>
+    <button id="signInBtn" class="primary-btn">Continue with Google</button>
+    <div id="userMenu" class="user-menu hidden">
+      <img id="avatar" alt="Profile">
+      <button id="signOutBtn" class="small-btn">Sign out</button>
     </div>
-
-    <button class="upload-btn" id="uploadBtn">＋ Upload</button>
   </header>
 
-  <aside class="sidebar" id="sidebar">
-    <a href="#" class="active">🏠 Home</a>
-    <a href="#">🔥 Trending</a>
-    <a href="#">📺 Subscriptions</a>
-    <hr>
-    <a href="#">📚 Library</a>
-    <a href="#">🕘 History</a>
-    <a href="#">👍 Liked Videos</a>
+  <aside id="sidebar" class="sidebar">
+    <nav>
+      <a href="#home">⌂ Home</a>
+      <a href="#explore">◈ Explore</a>
+      <a href="#shorts">▣ Shorts</a>
+      <a href="#subscriptions">▰ Subscriptions</a>
+      <hr>
+      <a href="#history">◷ History</a>
+      <a href="#liked">♡ Liked videos</a>
+      <a href="#channel">◉ Your channel</a>
+      <hr>
+      <button id="createChannelBtn" class="side-action">＋ Create channel</button>
+      <button id="uploadSideBtn" class="side-action">⇧ Upload video</button>
+    </nav>
   </aside>
 
-  <main class="main-content">
+  <main id="app" class="main">
+    <section id="homeView">
+      <div class="chips" id="categoryBar">
+        <button class="chip active" data-category="All">All</button>
+        <button class="chip" data-category="Music">Music</button>
+        <button class="chip" data-category="Gaming">Gaming</button>
+        <button class="chip" data-category="Technology">Technology</button>
+        <button class="chip" data-category="News">News</button>
+        <button class="chip" data-category="Education">Education</button>
+        <button class="chip" data-category="Travel">Travel</button>
+        <button class="chip" data-category="Vlogs">Vlogs</button>
+      </div>
 
-    <div class="category-bar">
-      <button class="category active-category">All</button>
-      <button class="category">Music</button>
-      <button class="category">Gaming</button>
-      <button class="category">News</button>
-      <button class="category">Village Life</button>
-      <button class="category">Technology</button>
-    </div>
+      <div class="hero">
+        <div>
+          <p class="eyebrow">A global creator community</p>
+          <h1>Explore.<br>Create.<br>Share.</h1>
+          <p>Watch creators, build your channel and share your own stories.</p>
+          <button id="heroBtn" class="primary-btn">Get started →</button>
+        </div>
+      </div>
 
-    <section class="video-grid" id="videoGrid">
-
-      <article class="video-card"
-        data-title="Beautiful Village Life in India"
-        data-category="Village Life">
-
-        <div class="thumbnail">
-          <img src="https://picsum.photos/seed/village/600/340">
-          <span class="duration">10:25</span>
+      <div class="content-layout">
+        <div>
+          <div class="section-head"><h2>Recommended for you</h2><button class="text-btn">See all</button></div>
+          <div id="videoGrid" class="video-grid"></div>
+          <div id="emptyState" class="empty hidden">No videos found yet. Sign in and upload the first one.</div>
         </div>
 
-        <div class="video-info">
-          <div class="channel-avatar">V</div>
-
-          <div>
-            <h3>Beautiful Village Life in India</h3>
-            <p>Village World</p>
-            <p>1.2M views • 2 days ago</p>
+        <aside class="right-column">
+          <div id="joinCard" class="panel">
+            <h3>Join our community</h3>
+            <p>Sign in to like, comment, subscribe and create your channel.</p>
+            <button class="google-btn" id="joinGoogleBtn">G Continue with Google</button>
           </div>
-        </div>
-      </article>
-
-
-      <article class="video-card"
-        data-title="Amazing Nature and Mountains"
-        data-category="Nature">
-
-        <div class="thumbnail">
-          <img src="https://picsum.photos/seed/mountain/600/340">
-          <span class="duration">08:42</span>
-        </div>
-
-        <div class="video-info">
-          <div class="channel-avatar">N</div>
-
-          <div>
-            <h3>Amazing Nature and Mountains</h3>
-            <p>Nature World</p>
-            <p>850K views • 1 week ago</p>
+          <div class="panel">
+            <div class="section-head"><h3>Trending now</h3><button class="text-btn">See all</button></div>
+            <div id="trendingList"></div>
           </div>
-        </div>
-      </article>
-
-
-      <article class="video-card"
-        data-title="Latest Technology Explained"
-        data-category="Technology">
-
-        <div class="thumbnail">
-          <img src="https://picsum.photos/seed/technology/600/340">
-          <span class="duration">12:18</span>
-        </div>
-
-        <div class="video-info">
-          <div class="channel-avatar">T</div>
-
-          <div>
-            <h3>Latest Technology Explained</h3>
-            <p>Tech World</p>
-            <p>560K views • 3 days ago</p>
-          </div>
-        </div>
-      </article>
-
-
-      <article class="video-card"
-        data-title="Relaxing Music for Everyone"
-        data-category="Music">
-
-        <div class="thumbnail">
-          <img src="https://picsum.photos/seed/music/600/340">
-          <span class="duration">25:30</span>
-        </div>
-
-        <div class="video-info">
-          <div class="channel-avatar">M</div>
-
-          <div>
-            <h3>Relaxing Music for Everyone</h3>
-            <p>Music Channel</p>
-            <p>2.4M views • 5 days ago</p>
-          </div>
-        </div>
-      </article>
-
-
-      <article class="video-card"
-        data-title="Amazing Gaming Adventure"
-        data-category="Gaming">
-
-        <div class="thumbnail">
-          <img src="https://picsum.photos/seed/gaming/600/340">
-          <span class="duration">15:44</span>
-        </div>
-
-        <div class="video-info">
-          <div class="channel-avatar">G</div>
-
-          <div>
-            <h3>Amazing Gaming Adventure</h3>
-            <p>Gaming Zone</p>
-            <p>930K views • 1 day ago</p>
-          </div>
-        </div>
-      </article>
-
-
-      <article class="video-card"
-        data-title="Daily News Update"
-        data-category="News">
-
-        <div class="thumbnail">
-          <img src="https://picsum.photos/seed/news/600/340">
-          <span class="duration">06:15</span>
-        </div>
-
-        <div class="video-info">
-          <div class="channel-avatar">N</div>
-
-          <div>
-            <h3>Daily News Update</h3>
-            <p>News Channel</p>
-            <p>420K views • 4 hours ago</p>
-          </div>
-        </div>
-      </article>
-
+        </aside>
+      </div>
     </section>
 
-    <div class="no-results" id="noResults">
-      No videos found.
-    </div>
-
+    <section id="watchView" class="hidden"></section>
+    <section id="channelView" class="hidden"></section>
+    <section id="uploadView" class="hidden"></section>
   </main>
 
-  <div class="upload-modal" id="uploadModal">
+  <div id="toast" class="toast hidden"></div>
 
-    <div class="modal-box">
-
-      <button class="close-btn" id="closeModal">×</button>
-
-      <h2>Upload Video</h2>
-
-      <input type="text" id="videoTitle" placeholder="Video title">
-
-      <input type="file" id="videoFile" accept="video/*">
-
-      <button class="publish-btn" id="publishBtn">
-        Publish Video
-      </button>
-
+  <dialog id="authDialog">
+    <div class="dialog">
+      <button class="dialog-x" data-close="authDialog">×</button>
+      <h2>Sign in to VidioSphere</h2>
+      <p>Use your Google account to create a channel, upload and interact.</p>
+      <button id="dialogGoogleBtn" class="google-btn">G Continue with Google</button>
     </div>
+  </dialog>
 
-  </div>
+  <dialog id="channelDialog">
+    <div class="dialog">
+      <button class="dialog-x" data-close="channelDialog">×</button>
+      <h2>Create your channel</h2>
+      <p>Your channel name and handle will be public.</p>
+      <input id="channelName" maxlength="60" placeholder="Channel name">
+      <input id="channelHandle" maxlength="30" placeholder="@handle">
+      <button id="saveChannelBtn" class="primary-btn full">Create channel</button>
+    </div>
+  </dialog>
 
-  <script src="script.js"></script>
+  <dialog id="phoneDialog">
+    <div class="dialog">
+      <button class="dialog-x" data-close="phoneDialog">×</button>
+      <h2>Verify your phone number</h2>
+      <p>Phone verification is required before uploading custom thumbnails.</p>
+      <input id="phoneNumber" placeholder="+91XXXXXXXXXX" inputmode="tel">
+      <div id="recaptcha-container"></div>
+      <button id="sendCodeBtn" class="primary-btn full">Send verification code</button>
+      <input id="verificationCode" class="hidden" placeholder="6-digit code" inputmode="numeric">
+      <button id="verifyCodeBtn" class="outline-btn full hidden">Verify phone</button>
+    </div>
+  </dialog>
 
+  <dialog id="uploadDialog">
+    <div class="dialog wide">
+      <button class="dialog-x" data-close="uploadDialog">×</button>
+      <h2>Upload a video</h2>
+      <p class="muted">Video uploads and thumbnails are stored in Firebase Storage.</p>
+      <label>Title<input id="uploadTitle" maxlength="120" placeholder="Give your video a title"></label>
+      <label>Description<textarea id="uploadDescription" maxlength="5000" rows="5" placeholder="Tell viewers about your video"></textarea></label>
+      <div class="two">
+        <label>Category<select id="uploadCategory">
+          <option>Music</option><option>Gaming</option><option>Technology</option>
+          <option>News</option><option>Education</option><option>Travel</option><option>Vlogs</option><option>Other</option>
+        </select></label>
+        <label>Visibility<select id="uploadVisibility"><option value="public">Public</option><option value="private">Private</option></select></label>
+      </div>
+      <label>Video file<input id="videoFile" type="file" accept="video/*"></label>
+      <label>Thumbnail (custom thumbnail requires phone verification)<input id="thumbnailFile" type="file" accept="image/*"></label>
+      <div id="uploadProgress" class="progress-wrap hidden"><div id="progressBar"></div><span id="progressText">0%</span></div>
+      <button id="publishBtn" class="primary-btn full">Publish video</button>
+    </div>
+  </dialog>
+
+  <dialog id="commentDialog">
+    <div class="dialog">
+      <button class="dialog-x" data-close="commentDialog">×</button>
+      <h2>Add a comment</h2>
+      <textarea id="commentText" maxlength="1000" rows="5" placeholder="Write a comment..."></textarea>
+      <button id="postCommentBtn" class="primary-btn full">Post comment</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
 </body>
 </html>

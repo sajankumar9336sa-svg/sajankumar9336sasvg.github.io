@@ -1,0 +1,182 @@
+rules_version = '2';
+
+service firebase.storage {
+
+  match /b/{bucket}/o {
+
+    // ============================================
+    // HELPER FUNCTIONS
+    // ============================================
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return signedIn()
+        && request.auth.uid == userId;
+    }
+
+    function isImage() {
+      return request.resource != null
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    function isVideo() {
+      return request.resource != null
+        && request.resource.contentType.matches('video/.*');
+    }
+
+
+    // ============================================
+    // USER PROFILE IMAGES
+    // ============================================
+
+    match /users/{userId}/profile/{fileName} {
+
+      // Publicly viewable profile images
+      allow read: if true;
+
+      // Only the account owner can upload/update
+      // their own profile image.
+      allow create, update: if isOwner(userId)
+        && isImage()
+        && request.resource.size < 5 * 1024 * 1024;
+
+      // Only the owner can delete their image.
+      allow delete: if isOwner(userId);
+    }
+
+
+    // ============================================
+    // CHANNEL IMAGES
+    // ============================================
+
+    match /channels/{channelId}/{fileName} {
+
+      // Channel images can be publicly viewed.
+      allow read: if true;
+
+      // A signed-in user can upload channel images.
+      //
+      // The application should ensure that the channel
+      // belongs to the authenticated user.
+      allow create, update: if signedIn()
+        && isImage()
+        && request.resource.size < 10 * 1024 * 1024;
+
+      allow delete: if signedIn();
+    }
+
+
+    // ============================================
+    // VIDEO FILES
+    // ============================================
+
+    match /videos/{userId}/{videoId}/video.{extension} {
+
+      // Public videos can be read.
+      //
+      // Uploading user must own the storage path.
+      allow read: if true;
+
+      allow create, update: if isOwner(userId)
+        && isVideo()
+        && request.resource.size < 5 * 1024 * 1024 * 1024;
+
+      // Only the video owner can delete the video.
+      allow delete: if isOwner(userId);
+    }
+
+
+    // ============================================
+    // VIDEO THUMBNAILS
+    // ============================================
+
+    match /videos/{userId}/{videoId}/thumbnail.{extension} {
+
+      // Public thumbnails can be displayed.
+      allow read: if true;
+
+      // Only the owner can upload/update thumbnail.
+      allow create, update: if isOwner(userId)
+        && isImage()
+        && request.resource.size < 10 * 1024 * 1024;
+
+      // Only the owner can delete thumbnail.
+      allow delete: if isOwner(userId);
+    }
+
+
+    // ============================================
+    // SHORTS
+    // ============================================
+
+    match /shorts/{userId}/{shortId}/video.{extension} {
+
+      allow read: if true;
+
+      allow create, update: if isOwner(userId)
+        && isVideo()
+        && request.resource.size < 2 * 1024 * 1024 * 1024;
+
+      allow delete: if isOwner(userId);
+    }
+
+
+    // ============================================
+    // SHORTS THUMBNAILS
+    // ============================================
+
+    match /shorts/{userId}/{shortId}/thumbnail.{extension} {
+
+      allow read: if true;
+
+      allow create, update: if isOwner(userId)
+        && isImage()
+        && request.resource.size < 10 * 1024 * 1024;
+
+      allow delete: if isOwner(userId);
+    }
+
+
+    // ============================================
+    // REMIX VIDEOS
+    // ============================================
+
+    match /remixes/{userId}/{remixId}/video.{extension} {
+
+      allow read: if true;
+
+      allow create, update: if isOwner(userId)
+        && isVideo()
+        && request.resource.size < 5 * 1024 * 1024 * 1024;
+
+      allow delete: if isOwner(userId);
+    }
+
+
+    // ============================================
+    // REMIX THUMBNAILS
+    // ============================================
+
+    match /remixes/{userId}/{remixId}/thumbnail.{extension} {
+
+      allow read: if true;
+
+      allow create, update: if isOwner(userId)
+        && isImage()
+        && request.resource.size < 10 * 1024 * 1024;
+
+      allow delete: if isOwner(userId);
+    }
+
+
+    // ============================================
+    // DEFAULT DENY
+    // ============================================
+
+    // Any storage path not explicitly defined above
+    // is denied by default.
+  }
+}
